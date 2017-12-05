@@ -10,6 +10,13 @@ public class tesgerak : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if (Manager.passedTime % Manager.intervals == 0) {
+			Manager.fallSpeed += Manager.acceleration;
+			Debug.Log ("Speed increased to " + Manager.fallSpeed);
+		}
+
+		//Debug.Log ("Time passed " + Manager.passedTime + " seconds");
+		speed = Manager.fallSpeed;
 		tipe = Random.Range (0, 4);
 		this.gameObject.GetComponent<SpriteRenderer> ().sprite = sprBuah [tipe];
 

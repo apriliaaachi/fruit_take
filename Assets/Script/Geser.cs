@@ -44,13 +44,22 @@ public class Geser : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.gameObject.tag == "buah") {
-			if(Manager.Tipe == coll.gameObject.GetComponent<tesgerak>().tipe)
-			{
+		if (coll.gameObject.tag == "emas") {
+			Debug.Log ("Emas");
+			Manager.skor += 50;
+			Manager.fallSpeed += 1;
+			counter++;
+			if(counter > 2){
+				Manager.Tipe=Random.Range(0,7);
+				counter = 0;
+			}
+		}
+		else if (coll.gameObject.tag == "buah") {
+			if(Manager.Tipe == coll.gameObject.GetComponent<tesgerak>().tipe) {
 				Manager.skor= Manager.skor +4;
 				counter++;
 				if(counter > 2){
-					Manager.Tipe=Random.Range(0,6);
+					Manager.Tipe=Random.Range(0,7);
 					counter = 0;
 				}
 			}
@@ -61,7 +70,7 @@ public class Geser : MonoBehaviour {
 		if (coll.gameObject.tag == "busuk") {
 			Manager.skor--;
 			Destroy (coll.gameObject);
-			Lost++;
+			//Lost++;
 			GameObject spawn = Instantiate (minus) as GameObject;
 		}
 	}

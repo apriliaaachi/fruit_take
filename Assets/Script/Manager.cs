@@ -23,16 +23,38 @@ public class Manager : MonoBehaviour {
 	public TextMesh txSkor, TxTime ,txHasilAkhir, txHighScore;
 	public GameObject GameOver;
 
+	public static float fallSpeed = 2f;
+	public static float acceleration = 0f;
+	public static int passedTime = 0;
+	public static int intervals = 0;
+
+	public float initialAcceleration;
+	public int initialIntervals;
+
+	public GameObject keranjang;
+
 	// Use this for initialization
 	void Start () {
+		acceleration = initialAcceleration;
+		intervals = initialIntervals;
 		//isPlay = false;
 		StartCoroutine (eksekusiPempek());
 		StartCoroutine (eksekusiRacun());
+		StartCoroutine (countTimes ());
 		Tipe = Random.Range (0, 6);
 		once = false;
 		Time.timeScale = 1;
 		skor = 0;
 		time = 0;
+	}
+
+	IEnumerator countTimes()
+	{
+		while (true) {
+			passedTime++;
+			//Debug.Log ("Passed time: " + passedTime);
+			yield return new WaitForSeconds (1f);
+		}
 	}
 	
 	// Update is called once per frame
@@ -62,17 +84,30 @@ public class Manager : MonoBehaviour {
 				Database.highscore = skor;
 				Database.saveData();
 			}
+			fallSpeed = 2f;
+			passedTime = 0;
 			GameOver.SetActive(true);
 			Time.timeScale = 0;
 			txHasilAkhir.text = skor.ToString(); 
 			txHighScore.text = Database.highscore.ToString();
 		}
 
+		/*if (Input.GetKey ("left")) {
+			keranjang.GetComponent<Geser> ().GeserKeranjangKiri ();
+		} else if (Input.GetKey ("right")) {
+			keranjang.GetComponent<Geser> ().GeserKeranjangKanan ();
+		}*/
+
+
 	}
 
 	IEnumerator eksekusiPempek(){
 		while (isPlay) {	
-			spw = Random.Range (0,3);
+			if (passedTime % 10 == 0) {
+				spw = 3;
+			} else {
+				spw = Random.Range (0,3);
+			}
 				GameObject spawn = Instantiate (spPempek[spw]) as GameObject;
 			/*if (spawn.GetComponent<SpriteRenderer> ().sprite == ) {
 				Debug.Log ("Destroy buah hantu");
