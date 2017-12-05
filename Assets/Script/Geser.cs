@@ -41,13 +41,13 @@ public class Geser : MonoBehaviour {
 		if (currIndex < 0)
 			currIndex = possiblePos.Length - 1;
 		keranjang.transform.position = new Vector3 (possiblePos[currIndex], currPos.y, currPos.z);
-	}
+	}	
 
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.gameObject.tag == "emas") {
 			Debug.Log ("Emas");
 			Manager.skor += 50;
-			Manager.fallSpeed += 1;
+			Manager.fallSpeed += 0.5f;
 			counter++;
 			if(counter > 2){
 				Manager.Tipe=Random.Range(0,7);
